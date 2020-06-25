@@ -1,0 +1,17 @@
+{
+  "name": "bt5-bot",
+  "scripts": {
+    "start": "node bot.js",
+    "dev": "nodemon bot.js",
+    "lint": "xo --fix"
+  },
+  "main": "bot.js",
+  "dependencies": {
+    "discord.js": "12.2.0",
+    "dotenv": "^8.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3",
+    "xo": "^0.30.0"
+  }
+}
