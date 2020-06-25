@@ -8,5 +8,7 @@ module.exports = {
 	modRole: '696339622900269056',
 	mutedRole: '697163499918590023',
 	teachingTeamRole: '696472686087634995',
-	enrolledRole: '696391357022863392'
+	enrolledRole: '696391357022863392',
+	eventNotify: '725481770832756837',
+	courseNotify: '725481861106892883'
 };

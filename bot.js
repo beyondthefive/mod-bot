@@ -113,13 +113,12 @@ client.on('message', async message => {
 });
 
 const updateChannelStats = member => {
-	const count = member.guild.members.cache.filter(member => !member.user.bot).size;
+	const count = member.guild.members.cache.filter(member => !member.user.bot)
+		.size;
 	member.guild.channels.cache
 		.get(config.statsChannelID)
-		.setName(
-			count +
-        ' Members'
-		).then(console.log('Statistics channel updated: ' + count));
+		.setName(count + ' Members')
+		.then(console.log('Statistics channel updated: ' + count));
 };
 
 client.on('guildMemberAdd', async member => {
@@ -129,7 +128,8 @@ client.on('guildMemberAdd', async member => {
 			'Hi <@' +
         member.id +
         '>, welcome to Beyond The Five!\nPlease read <#715254355778994267> in order to get verified.'
-		);
+		)
+		.then(member.roles.add([config.eventNotify, config.courseNotify]));
 	return updateChannelStats(member);
 });
 
