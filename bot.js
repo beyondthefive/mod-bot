@@ -75,39 +75,93 @@ client.on('message', async message => {
 			updateChannelStats(message.member);
 			return message.channel.send('Operation complete.');
 		}
-		/* Else if (cmd=="welcome"){
+		/* Else if (cmd === "uw") {
+      if (message.channel.id != config.botChannelID) {
+        return message.channel.send("You can't do that here bud. 😳");
+      }
+      const e = {
+        title: "Welcome to Beyond The Five!",
+        color: 2899536,
+        footer: {
+          icon_url: "https://beyondthefive.org/logo.png",
+          text: "We look forward to learning with you!",
+        },
+        thumbnail: {
+          url: "https://beyondthefive.org/logo.png",
+        },
+        author: {
+          name: "Beyond The Five",
+          url: "https://beyondthefive.org",
+          icon_url: "https://beyondthefive.org/logo.png",
+        },
+        fields: [
+          {
+            name: "About Us",
+            value:
+              "Beyond The Five is a non-profit organization dedicated towards helping students from around the world pursue higher level education through **over 150 free, online, self-paced courses** ranging from AP, SAT/ACT to college-level courses.\nhttps://beyondthefive.org/courses",
+          },
+          {
+            name: "Registration",
+            value:
+              "Registration for the 2020-21 school year is now open!\nhttps://beyondthefive.org/register",
+          },
+          {
+            name: "Verification",
+            value:
+              "By reacting to this message with :white_check_mark:, you agree to all of the <#695982250952622141>",
+          },
+        ],
+      };
+
+      const m = await message.guild.channels.cache
+        .get("715254355778994267")
+		.messages.fetch("715704063010013214");
+		 console.log(m.embeds[0].fields[0] = "Test")
+		 return m.edit(new Discord.MessageEmbed(e));
+
+    } */
+		/* else if (cmd=="rules"){
       const embed = {
-        "title": "Welcome to Beyond The Five!",
-       // "description": "test",
+        "title": "Beyond The Five Community Guidelines & Rules",
+
         "color": 2899536,
-        "footer": {
-          "icon_url": "https://beyondthefive.com/logo.png",
-          "text": "We look forward to learning with you!"
-        },
-        "thumbnail": {
-          "url": "https://beyondthefive.com/logo.png"
-        },
+
         "author": {
           "name": "Beyond The Five",
-          "url": "https://beyondthefive.com",
-          "icon_url": "https://beyondthefive.com/logo.png"
+          "url": "https://beyondthefive.org",
+          "icon_url": "https://beyondthefive.org/logo.png"
         },
         "fields": [
           {
-            "name": "About Us",
-            "value": "Beyond The Five is a non-profit organization dedicated towards helping students from around the world pursue higher level education through **over 150 free, online, self-paced courses** ranging from AP, SAT/ACT to college-level courses.\nhttps://beyondthefive.com/courses"
+            "name": "Rule 1",
+            "value": "Respect all of your other students, teachers, and staff members."
           },
           {
-            "name": "Registration",
-            "value": "Registration for the 2020-21 school year is now open!\nhttps://beyondthefive.com/register"
+            "name": "Rule 2",
+            "value": "The sharing of illegal and copyrighted content is forbidden."
+          },{
+            "name": "Rule 3",
+            "value": "Do not talk about anything that others may find offensive or uncomfortable. The sharing of inappropriate or NSFW content is strictly forbidden. Controversial topics, including current evolving situations and politics, can be discussed as long as it’s civil."
+          },{
+            "name": "Rule 4",
+            "value": "Keep topics in their respective channels."
+          },{
+            "name": "Rule 5",
+            "value": "Advertising, links, and all other types of promotion must be approved by the Management Team and/or Administrator."
+          },{
+            "name": "Rule 6",
+            "value": "All decisions made by staff are final. You may appeal and question a decision by contacting an Administrator."
+          },{
+            "name": "Rule 7",
+            "value": "Abide by Discord’s Terms of Service: https://discord.com/new/terms"
+		  },
+		  {
+            "name": "Questions?",
+            "value": "If you have any questions about these rules, please ask in <#695982619917025300>."
           },
-          {
-            "name": "Verification",
-            "value": "By reacting to this message with :white_check_mark:, you agree to all of the <#695982250952622141>"
-          }
         ]
       };
-      msg.channel.send({ embed });
+      await message.channel.send({ embed });
     } */
 	}
 });
