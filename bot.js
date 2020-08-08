@@ -166,6 +166,14 @@ client.on('message', async message => {
 	}
 });
 
+client.on('message', async message => {
+	if (message.channel.id === config.adcomDiscussionChannelID) {
+		return message
+			.react('👍')
+			.then(message.react('👎').then(message.react('❓')));
+	}
+});
+
 const updateChannelStats = member => {
 	const count = member.guild.members.cache.filter(member => !member.user.bot)
 		.size;
