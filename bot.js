@@ -116,7 +116,6 @@ client.on("message", async (message) => {
       const m = await message.guild.channels.cache
         .get("715254355778994267")
 		.messages.fetch("715704063010013214");
-		 console.log(m.embeds[0].fields[0] = "Test")
 		 return m.edit(new Discord.MessageEmbed(e));
 
     } */
@@ -161,7 +160,10 @@ client.on("message", async (message) => {
           },
         ]
       };
-      await message.channel.send({ embed });
+      const m = await message.guild.channels.cache
+      .get("695982250952622141")
+  .messages.fetch("732717175646846987");
+   return m.edit(new Discord.MessageEmbed(embed));
     } */
   }
 });
