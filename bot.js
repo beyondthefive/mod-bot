@@ -75,7 +75,7 @@ client.on("message", async (message) => {
       await updateChannelStats(message.member);
       return message.channel.send("Operation complete.");
     }
-    /* Else if (cmd === "uw") {
+    /* else if (cmd === "uw") {
       if (message.channel.id != config.botChannelID) {
         return message.channel.send("You can't do that here bud. 😳");
       }
@@ -98,7 +98,7 @@ client.on("message", async (message) => {
           {
             name: "About Us",
             value:
-              "Beyond The Five is a non-profit organization dedicated towards helping students from around the world pursue higher level education through **over 150 free, online, self-paced courses** ranging from AP, SAT/ACT to college-level courses.\nhttps://beyondthefive.org/courses",
+              "Beyond The Five is a non-profit organization dedicated towards helping students from around the world pursue higher level education through **over 100 free, online, self-paced courses** ranging from AP, SAT/ACT, to college-level courses.\nhttps://beyondthefive.org/courses",
           },
           {
             name: "Registration",
@@ -141,7 +141,7 @@ client.on("message", async (message) => {
             "value": "The sharing of illegal and copyrighted content is forbidden."
           },{
             "name": "Rule 3",
-            "value": "Do not talk about anything that others may find offensive or uncomfortable. The sharing of inappropriate or NSFW content is strictly forbidden. Controversial topics, including current evolving situations and politics, can be discussed as long as it’s civil."
+            "value": "Do not discuss anything potentially offensive or uncomfortable. The sharing of inappropriate or explicit content is strictly forbidden. Controversial topics, including current evolving events, can be discussed as long as it’s civil. Political and ideological discussions are generally prohibited."
           },{
             "name": "Rule 4",
             "value": "Keep topics in their respective channels."
@@ -174,13 +174,11 @@ client.on("message", async (message) => {
   }
 });
 
-const updateChannelStats = (member) => {
-  const count = member.guild.members.cache.filter((member) => !member.user.bot)
-    .size;
-  member.guild.channels.cache
+const updateChannelStats = async (member) => {
+  const count = (await member.guild.fetch()).approximateMemberCount;
+  await member.guild.channels.cache
     .get(config.statsChannelID)
-    .setName(count + " Members")
-    .then(console.log("Statistics channel updated: " + count));
+    .setName(count + " Members");
 };
 
 client.on("guildMemberAdd", async (member) => {
