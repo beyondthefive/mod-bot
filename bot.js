@@ -1,81 +1,81 @@
-const Discord = require('discord.js');
-require('dotenv').config();
-const config = require('./config.js');
+const Discord = require("discord.js");
+require("dotenv").config();
+const config = require("./config.js");
 
 function msleep(n) {
-	Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, n);
+  Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, n);
 }
 
 const client = new Discord.Client();
 
-client.on('ready', () => {
-	console.log(`Logged in as ${client.user.tag}!`);
+client.on("ready", () => {
+  console.log(`Logged in as ${client.user.tag}!`);
 });
 
 const slowmode = async (message, time, channels) => {
-	const channelObjs = [];
-	for (const element of channels) {
-		channelObjs.push(
-			await client.guilds.cache
-				.get(config.guildID)
-				.channels.cache.get(element.substring(2, element.length - 1))
-		);
-	}
+  const channelObjs = [];
+  for (const element of channels) {
+    channelObjs.push(
+      await client.guilds.cache
+        .get(config.guildID)
+        .channels.cache.get(element.substring(2, element.length - 1))
+    );
+  }
 
-	await message.channel.send(
-		channelObjs.length +
-      ' channels will be given a ' +
+  await message.channel.send(
+    channelObjs.length +
+      " channels will be given a " +
       time +
-      ' second slowmode.\nA confirmation message will be sent upon completion.'
-	);
-	channelObjs.map(async c => {
-		c.setRateLimitPerUser(time)
-		// .then(() => console.log(c.name + " now has slowmode."))
-			.catch(error => {
-				return message.channel.send('Error.\n' + error);
-			});
-		msleep(500);
-		console.log(c.name + ' done.');
-	});
-	return message.channel.send(
-		'<@' +
+      " second slowmode.\nA confirmation message will be sent upon completion."
+  );
+  channelObjs.map(async (c) => {
+    c.setRateLimitPerUser(time)
+      // .then(() => console.log(c.name + " now has slowmode."))
+      .catch((error) => {
+        return message.channel.send("Error.\n" + error);
+      });
+    msleep(500);
+    console.log(c.name + " done.");
+  });
+  return message.channel.send(
+    "<@" +
       message.author +
-      '> Channels now have a ' +
+      "> Channels now have a " +
       time +
-      ' second slowmode.'
-	);
+      " second slowmode."
+  );
 };
 
-client.on('message', async message => {
-	const contents = message.content.split(' ');
-	const cmd = contents[1];
-	const args = contents.slice(2);
-	if (contents[0] === config.prefix) {
-		if (cmd === 'slowmode') {
-			if (!message.member.hasPermission('ADMINISTRATOR')) {
-				return message.channel.send(
-					'You need to be an administrator to do that silly!'
-				);
-			}
+client.on("message", async (message) => {
+  const contents = message.content.split(" ");
+  const cmd = contents[1];
+  const args = contents.slice(2);
+  if (contents[0] === config.prefix) {
+    if (cmd === "slowmode") {
+      if (!message.member.hasPermission("ADMINISTRATOR")) {
+        return message.channel.send(
+          "You need to be an administrator to do that silly!"
+        );
+      }
 
-			if (args[0] >= 0 && args[0] <= 21600) {
-				return slowmode(message, args[0], args.slice(1));
-			}
+      if (args[0] >= 0 && args[0] <= 21600) {
+        return slowmode(message, args[0], args.slice(1));
+      }
 
-			return message.channel.send(
-				'Argument needs to be a positive integer under 21600 (6 hours).'
-			);
-		}
+      return message.channel.send(
+        "Argument needs to be a positive integer under 21600 (6 hours)."
+      );
+    }
 
-		if (cmd === 'updateChannelStats') {
-			if (message.channel.id != config.botChannelID) {
-				return message.channel.send('You can\'t do that here bud. 😳');
-			}
+    if (cmd === "updateChannelStats") {
+      if (message.channel.id != config.botChannelID) {
+        return;
+      }
 
-			updateChannelStats(message.member);
-			return message.channel.send('Operation complete.');
-		}
-		/* Else if (cmd === "uw") {
+      await updateChannelStats(message.member);
+      return message.channel.send("Operation complete.");
+    }
+    /* Else if (cmd === "uw") {
       if (message.channel.id != config.botChannelID) {
         return message.channel.send("You can't do that here bud. 😳");
       }
@@ -120,7 +120,7 @@ client.on('message', async message => {
 		 return m.edit(new Discord.MessageEmbed(e));
 
     } */
-		/* else if (cmd=="rules"){
+    /* else if (cmd=="rules"){
       const embed = {
         "title": "Beyond The Five Community Guidelines & Rules",
 
@@ -163,36 +163,36 @@ client.on('message', async message => {
       };
       await message.channel.send({ embed });
     } */
-	}
+  }
 });
 
-client.on('message', async message => {
-	if (message.channel.id === config.adcomDiscussionChannelID) {
-		return message
-			.react('👍')
-			.then(message.react('👎').then(message.react('❓')));
-	}
+client.on("message", async (message) => {
+  if (message.channel.id === config.adcomDiscussionChannelID) {
+    return message
+      .react("👍")
+      .then(message.react("👎").then(message.react("❓")));
+  }
 });
 
-const updateChannelStats = member => {
-	const count = member.guild.members.cache.filter(member => !member.user.bot)
-		.size;
-	member.guild.channels.cache
-		.get(config.statsChannelID)
-		.setName(count + ' Members')
-		.then(console.log('Statistics channel updated: ' + count));
+const updateChannelStats = (member) => {
+  const count = member.guild.members.cache.filter((member) => !member.user.bot)
+    .size;
+  member.guild.channels.cache
+    .get(config.statsChannelID)
+    .setName(count + " Members")
+    .then(console.log("Statistics channel updated: " + count));
 };
 
-client.on('guildMemberAdd', async member => {
-	await member.guild.channels.cache
-		.get(config.joinLogID)
-		.send(
-			'Hi <@' +
+client.on("guildMemberAdd", async (member) => {
+  await member.guild.channels.cache
+    .get(config.joinLogID)
+    .send(
+      "Hi <@" +
         member.id +
-        '>, welcome to Beyond The Five!\nPlease read <#715254355778994267> in order to get verified.'
-		)
-		.then(member.roles.add([config.eventNotify, config.courseNotify]));
-	return updateChannelStats(member);
+        ">, welcome to Beyond The Five!\nPlease read <#715254355778994267> in order to get verified."
+    );
+  //.then(member.roles.add([config.eventNotify, config.courseNotify]));
+  return updateChannelStats(member);
 });
 
 client.login(process.env.token);
